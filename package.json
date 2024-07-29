@@ -1,6 +1,6 @@
 {
   "name": "@goval/node-goval",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A client to interact with key-value goval database.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
