@@ -1,0 +1,22 @@
+{
+  "name": "node-goval",
+  "version": "0.0.1",
+  "description": "A client to interact with key-value goval database.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "repository": "git@github.com:StevenSermeus/node-goval.git",
+  "author": "Steven Sermeus <stevensermeus@gmail.com>",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "build": "tsup index.ts --format cjs,esm --dts",
+    "lint": "tsc",
+    "release": "pnpm run build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@types/node": "^22.0.0",
+    "tsup": "^8.2.3",
+    "typescript": "^5.5.4"
+  }
+}
