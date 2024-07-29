@@ -11,7 +11,7 @@
   "scripts": {
     "build": "tsup index.ts --format cjs,esm --dts",
     "lint": "tsc",
-    "release": "pnpm run build && changeset publish"
+    "release": "yarn run build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
