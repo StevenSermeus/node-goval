@@ -1,26 +1,35 @@
-import * as net from "net";
+import exp from "constants";
+import { TcpClient } from "./src/tcp";
 
-class GoVal {
+class GovalClient {
+  private tcpClient: TcpClient;
   private host: string;
   private port: number;
-  private passphrase: string;
-  private bufferSize: number;
-  private client: net.Socket;
-
-  constructor(
-    host: string,
-    port: number,
-    passphrase: string,
-    bufferSize?: number
-  ) {
+  constructor(host: string, port: number) {
     this.host = host;
     this.port = port;
-    this.passphrase = passphrase;
-    this.bufferSize = bufferSize || 1024;
-    this.client = new net.Socket();
-    this.client.connect(this.port, this.host, () => {
-      console.log("Connected");
-    });
-    this.client.write(this.passphrase);
+    this.tcpClient = new TcpClient(this.host, this.port);
+  }
+
+  public async connect(): Promise<void> {
+    await this.tcpClient.connect();
+  }
+
+  public async disconnect(): Promise<void> {
+    await this.tcpClient.disconnect();
+  }
+
+  public async get(key: string): Promise<string> {
+    return await this.tcpClient.send(`GET ${key}`);
+  }
+
+  public async set(key: string, value: string): Promise<string> {
+    return await this.tcpClient.send(`SET ${key} ${value}`);
+  }
+
+  public async del(key: string): Promise<string> {
+    return await this.tcpClient.send(`DEL ${key}`);
   }
 }
+
+export default GovalClient;
