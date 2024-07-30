@@ -43,7 +43,7 @@ class TcpClient {
   }
 
   private addProtocol(data: string): string {
-    return `!${data}\n\r\n\r`;
+    return `${data}\n\r\n\r`;
   }
 
   public async send(data: string): Promise<string> {
@@ -54,7 +54,7 @@ class TcpClient {
   }
 
   private stripProtocol(data: string): string {
-    return data.slice(1, data.length - 4);
+    return data.slice(0, data.length - 4);
   }
 
   private processQueue() {
