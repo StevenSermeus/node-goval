@@ -1,11 +1,10 @@
-import exp from "constants";
 import { TcpClient } from "./src/tcp";
 
 class GovalClient {
   private tcpClient: TcpClient;
   private host: string;
   private port: number;
-  constructor(host: string, port: number) {
+  constructor(host: string, port: number = 6969) {
     this.host = host;
     this.port = port;
     this.tcpClient = new TcpClient(this.host, this.port);
@@ -60,6 +59,31 @@ class GovalClient {
 
   public async del(key: string): Promise<string> {
     const res = await this.tcpClient.send(`!DEL ${key}`);
+    if (res.startsWith("-")) {
+      throw new Error(res.slice(1));
+    }
+    return res.slice(1);
+  }
+
+  public async expr(key: string, ttl: number): Promise<string> {
+    const res = await this.tcpClient.send(`!EXPR ${key} ${ttl}`);
+    console.log(res);
+    if (res.startsWith("-")) {
+      throw new Error(res.slice(1));
+    }
+    return res.slice(1);
+  }
+
+  public async version(): Promise<string> {
+    const res = await this.tcpClient.send("!VERSION");
+    if (res.startsWith("-")) {
+      throw new Error(res.slice(1));
+    }
+    return res.slice(1);
+  }
+
+  public async auth(password: string): Promise<string> {
+    const res = await this.tcpClient.send(`!AUTH ${password}`);
     if (res.startsWith("-")) {
       throw new Error(res.slice(1));
     }
